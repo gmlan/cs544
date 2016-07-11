@@ -21,8 +21,9 @@ public class CreditCardImpl implements CreditCard {
 		super();
 	}
 
-	public CreditCardImpl(String cardNum, String nameOnCard, String expirationDate, String cardType) {
+	public CreditCardImpl(int id, String cardNum, String nameOnCard, String expirationDate, String cardType) {
 		super();
+		this.id = id;
 		this.cardNum = cardNum;
 		this.nameOnCard = nameOnCard;
 		this.expirationDate = expirationDate;
@@ -68,6 +69,16 @@ public class CreditCardImpl implements CreditCard {
 	@Override
 	public int getId() {
 		return id;
+	}
+	
+
+	public static CreditCardImpl clone(CreditCard creditCard){
+		return new CreditCardImpl(
+				creditCard.getId(),
+				creditCard.getNameOnCard(),
+				creditCard.getExpirationDate(),
+				creditCard.getCardNum(),
+				creditCard.getCardType());
 	}
 
 }

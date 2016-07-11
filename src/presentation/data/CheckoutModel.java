@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import business.externalinterfaces.Address;
 import business.externalinterfaces.CreditCard;
+import business.users.AddressImpl;
+import business.users.CreditCardImpl;
 
 public class CheckoutModel implements Serializable{
 	/**
@@ -42,12 +44,12 @@ public class CheckoutModel implements Serializable{
 	}
 
 	public CheckoutModel(){
-		/*shippingAddress  = new AddressImpl();
+		shippingAddress  = new AddressImpl();
 		billingAddress = new AddressImpl();
 		creditCard = new CreditCardImpl();
 		
-		((AddressImpl)shippingAddress).setShippingAddress(true);
-		((AddressImpl)billingAddress).setBillingAddress(true);*/
+		//((AddressImpl)shippingAddress).setShippingAddress(true);
+		//((AddressImpl)billingAddress).setBillingAddress(true);
 	}
 
 	public Address getShippingAddress() {

@@ -91,5 +91,15 @@ public class AddressImpl implements Address {
 		this.id = id;
 
 	}
+	
+	public static AddressImpl clone(Address address) {
+		AddressImpl addressImpl = new AddressImpl(
+				address.getStreet(), 
+				address.getCity(),
+				address.getState(),
+				address.getZip());		
+		addressImpl.setId(address.getId());
+		return addressImpl;
+	}	
 
 }
