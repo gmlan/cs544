@@ -1,6 +1,7 @@
 package business.users;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import business.externalinterfaces.CreditCard;
@@ -9,6 +10,8 @@ import business.externalinterfaces.CreditCard;
 public class CreditCardImpl implements CreditCard {
 
 	@Id
+	@GeneratedValue
+	private int id;
 	private String cardNum;
 	private String nameOnCard;
 	private String expirationDate;
@@ -60,6 +63,11 @@ public class CreditCardImpl implements CreditCard {
 
 	public void setCardType(String cardType) {
 		this.cardType = cardType;
+	}
+
+	@Override
+	public int getId() {
+		return id;
 	}
 
 }

@@ -23,40 +23,31 @@ public class UserImpl implements User {
 	private String lastname;
 	private Address defaultShippingAddress;
 	private Address defaultBillingAddress;
+	private CreditCard defaultCreditCard;
 	@OneToMany
 	private List<Address> shippingAddress;
 	@OneToMany
 	private List<Address> billingAddress;
 	@OneToMany
-	private CreditCard creditCard;
+	private List<CreditCard> creditCard;
 
 	public UserImpl() {
 	}
 
-	public UserImpl(int id, String username, String password, String firstname, String lastname,
-			Address defaultShippingAddress, Address defaultBillingAddress, List<Address> shippingAddress,
-			List<Address> billingAddress, CreditCard creditCard) {
+	public UserImpl(String username, String password, String firstname, String lastname, Address defaultShippingAddress,
+			Address defaultBillingAddress, CreditCard defaultCreditCard, List<Address> shippingAddress,
+			List<Address> billingAddress, List<CreditCard> creditCard) {
 		super();
-		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.defaultShippingAddress = defaultShippingAddress;
 		this.defaultBillingAddress = defaultBillingAddress;
+		this.defaultCreditCard = defaultCreditCard;
 		this.shippingAddress = shippingAddress;
 		this.billingAddress = billingAddress;
 		this.creditCard = creditCard;
-	}
-
-	@Override
-	public int getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	@Override
@@ -120,6 +111,16 @@ public class UserImpl implements User {
 	}
 
 	@Override
+	public CreditCard getDefaultCreditCard() {
+		return defaultCreditCard;
+	}
+
+	@Override
+	public void setDefaultCreditCard(CreditCard defaultCreditCard) {
+		this.defaultCreditCard = defaultCreditCard;
+	}
+
+	@Override
 	public List<Address> getShippingAddress() {
 		return shippingAddress;
 	}
@@ -140,13 +141,17 @@ public class UserImpl implements User {
 	}
 
 	@Override
-	public CreditCard getCreditCard() {
+	public List<CreditCard> getCreditCard() {
 		return creditCard;
 	}
 
 	@Override
-	public void setCreditCard(CreditCard creditCard) {
+	public void setCreditCard(List<CreditCard> creditCard) {
 		this.creditCard = creditCard;
 	}
 
+	@Override
+	public int getId() {
+		return id;
+	}
 }

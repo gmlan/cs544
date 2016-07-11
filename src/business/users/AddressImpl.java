@@ -1,6 +1,7 @@
 package business.users;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import business.externalinterfaces.Address;
@@ -9,6 +10,8 @@ import business.externalinterfaces.Address;
 public class AddressImpl implements Address {
 
 	@Id
+	@GeneratedValue
+	private int id;
 	private String zip;
 	private String street;
 	private String city;
@@ -76,6 +79,17 @@ public class AddressImpl implements Address {
 	public boolean isBillingAddress() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public int getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(int id) {
+		this.id = id;
+
 	}
 
 }

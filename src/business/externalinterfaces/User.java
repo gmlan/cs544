@@ -4,9 +4,6 @@ import java.util.List;
 
 public interface User {
 
-	public int getId();
-	
-	public void setId(int id);
 
 	public String getUsername();
 
@@ -32,6 +29,10 @@ public interface User {
 
 	public void setDefaultBillingAddress(Address defaultBillingAddress);
 
+	public CreditCard getDefaultCreditCard();
+
+	public void setDefaultCreditCard(CreditCard defaultCreditCard);
+
 	public List<Address> getShippingAddress();
 
 	public void setShippingAddress(List<Address> shippingAddress);
@@ -40,7 +41,9 @@ public interface User {
 
 	public void setBillingAddress(List<Address> billingAddress);
 
-	public CreditCard getCreditCard();
+	public List<CreditCard> getCreditCard();
 
-	public void setCreditCard(CreditCard creditCard);
+	public void setCreditCard(List<CreditCard> creditCard);
+
+	public int getId();
 }
