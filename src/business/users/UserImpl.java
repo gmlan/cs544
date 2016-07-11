@@ -1,11 +1,13 @@
 package business.users;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import business.externalinterfaces.Address;
 import business.externalinterfaces.CreditCard;
@@ -21,22 +23,25 @@ public class UserImpl implements User {
 	private String password;
 	private String firstname;
 	private String lastname;
-	private Address defaultShippingAddress;
-	private Address defaultBillingAddress;
-	private CreditCard defaultCreditCard;
+	@OneToOne
+	private AddressImpl defaultShippingAddress;
+	@OneToOne
+	private AddressImpl defaultBillingAddress;
+	@OneToOne
+	private CreditCardImpl defaultCreditCard;
 	@OneToMany
-	private List<Address> shippingAddress;
+	private List<AddressImpl> shippingAddress;
 	@OneToMany
-	private List<Address> billingAddress;
+	private List<AddressImpl> billingAddress;
 	@OneToMany
-	private List<CreditCard> creditCard;
+	private List<CreditCardImpl> creditCard;
 
 	public UserImpl() {
 	}
 
-	public UserImpl(String username, String password, String firstname, String lastname, Address defaultShippingAddress,
-			Address defaultBillingAddress, CreditCard defaultCreditCard, List<Address> shippingAddress,
-			List<Address> billingAddress, List<CreditCard> creditCard) {
+	public UserImpl(String username, String password, String firstname, String lastname,
+			AddressImpl defaultShippingAddress, AddressImpl defaultBillingAddress, CreditCardImpl defaultCreditCard,
+			List<AddressImpl> shippingAddress, List<AddressImpl> billingAddress, List<CreditCardImpl> creditCard) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -82,7 +87,7 @@ public class UserImpl implements User {
 
 	@Override
 	public String getLastname() {
-		return lastname;
+		return this.lastname;
 	}
 
 	@Override
@@ -97,7 +102,7 @@ public class UserImpl implements User {
 
 	@Override
 	public void setDefaultShippingAddress(Address defaultShippingAddress) {
-		this.defaultShippingAddress = defaultShippingAddress;
+		this.defaultShippingAddress = AddressImpl.clone(defaultShippingAddress);
 	}
 
 	@Override
@@ -107,7 +112,8 @@ public class UserImpl implements User {
 
 	@Override
 	public void setDefaultBillingAddress(Address defaultBillingAddress) {
-		this.defaultBillingAddress = defaultBillingAddress;
+		this.defaultBillingAddress = AddressImpl.clone(defaultBillingAddress);
+
 	}
 
 	@Override
@@ -117,37 +123,39 @@ public class UserImpl implements User {
 
 	@Override
 	public void setDefaultCreditCard(CreditCard defaultCreditCard) {
-		this.defaultCreditCard = defaultCreditCard;
+		this.defaultCreditCard = CreditCardImpl.clone(defaultCreditCard);
 	}
 
 	@Override
-	public List<Address> getShippingAddress() {
-		return shippingAddress;
+	public List<? extends Address> getShippingAddress() {
+		return this.shippingAddress;
 	}
 
 	@Override
-	public void setShippingAddress(List<Address> shippingAddress) {
-		this.shippingAddress = shippingAddress;
+	public void setShippingAddress(List<? extends Address> shippingAddress) {
+		this.shippingAddress = shippingAddress.stream().map(add -> AddressImpl.clone(add)).collect(Collectors.toList());
+
 	}
 
 	@Override
-	public List<Address> getBillingAddress() {
-		return billingAddress;
+	public List<? extends Address> getBillingAddress() {
+		return this.billingAddress;
 	}
 
 	@Override
-	public void setBillingAddress(List<Address> billingAddress) {
-		this.billingAddress = billingAddress;
+	public void setBillingAddress(List<? extends Address> billingAddress) {
+		this.billingAddress = billingAddress.stream().map(add -> AddressImpl.clone(add)).collect(Collectors.toList());
+
 	}
 
 	@Override
-	public List<CreditCard> getCreditCard() {
-		return creditCard;
+	public List<? extends CreditCard> getCreditCard() {
+		return this.creditCard;
 	}
 
 	@Override
-	public void setCreditCard(List<CreditCard> creditCard) {
-		this.creditCard = creditCard;
+	public void setCreditCard(List<? extends CreditCard> creditCard) {
+		this.creditCard = creditCard.stream().map(c -> CreditCardImpl.clone(c)).collect(Collectors.toList());
 	}
 
 	@Override
