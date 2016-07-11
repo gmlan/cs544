@@ -23,7 +23,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/test" />
 		<property name="username" value="root" />
-		<property name="password" value="admin123" />
+		<property name="password" value="" />
 	</bean>
 	
 	<bean id="hibernateProperties"
@@ -32,7 +32,7 @@
 			<props>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
-				<prop key="connection.pool.size">1</prop>
+				<prop key="connection.pool.size">5</prop>
 				<prop key="hibernate.show_sql">true</prop>
     			
 			</props>
@@ -47,31 +47,11 @@
 		<property name="hibernateProperties" ref="hibernateProperties" />	
 		<property name="packagesToScan" value="business" />
 	</bean>
-	<!-- 
-    <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
-        <property name="caches">
-            <set>
-                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-                    <property name="name" value="default"/>
-                </bean>
-                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-                    <property name="name" value="productCache"/>
-                </bean>
-            </set>
-        </property>
-    </bean>
-     -->
+	 
 	<bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"></property>
-	</bean>  
-	
-	<bean id="dataSourceAccounts" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="org.gjt.mm.mysql.Driver" />
-		<property name="url" value="jdbc:mysql:///accountsdb" />
-		<property name="username" value="root" />
-		<property name="password" value="admin123" />
-	</bean>
-	
+	</bean>	
+	 
 	<!--Where to load static resources (css, js, images) -->
     <mvc:resources location="/resources/" mapping="/static/**" />
   
@@ -107,7 +87,4 @@
      <!-- Validator -->
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
-    <!-- User's validator -->    
-    <!-- <bean id="userValidator" class="edu.mum.cs545.lms.validator.UserValidator" /> -->
-    
 </beans>
