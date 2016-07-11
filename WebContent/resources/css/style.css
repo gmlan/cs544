@@ -192,6 +192,10 @@ div.input-group .input-group-addon{
 	width:50%;
 }
 
+#newUser{
+	width:50%;
+}
+
 table.dataTable a.action{
 	font-size:12px;
 }
