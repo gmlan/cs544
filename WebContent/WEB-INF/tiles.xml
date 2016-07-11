@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE tiles-definitions PUBLIC  
+      "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  
+      "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">  
+<tiles-definitions>  
+ 
+    <!-- Base Define -->
+    <definition name="base.definition" 
+                template="/WEB-INF/layouts/base_sidebar.jsp">  
+        <put-attribute name="title" value="" />  
+        <put-attribute name="header" value="/WEB-INF/basefragments/_header.jsp" />  
+        <put-attribute name="sidebar" value="/WEB-INF/basefragments/_sidebar.jsp" />
+        <put-attribute name="body" value="" />  
+        <put-attribute name="footer" value="/WEB-INF/basefragments/_footer.jsp" />  
+    </definition>  
+    
+    <!-- Base Define with no side bar-->
+    <definition name="base_nosidebar.definition" 
+                template="/WEB-INF/layouts/base_nosidebar.jsp">  
+        <put-attribute name="title" value="" />  
+        <put-attribute name="header" value="/WEB-INF/basefragments/_header.jsp" />
+        <put-attribute name="body" value="" />  
+        <put-attribute name="footer" value="/WEB-INF/basefragments/_footer.jsp" />  
+    </definition>  
+ 
+    <!-- Home Page -->
+    <definition name="home" extends="base.definition">  
+        <put-attribute name="title" value="Home Page" />  
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/_home.jsp" />  
+    </definition> 
+    
+    <!--  login -->
+    <definition name="login" extends="base_nosidebar.definition">  
+        <put-attribute name="title" value="Login" />
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/_login.jsp" />
+    </definition>
+        
+    <!--  Product  -->
+    <definition name="product_list" extends="base.definition">  
+        <put-attribute name="title" value="Product List" />
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/_product_list.jsp" />
+    </definition>
+    
+    <definition name="product_details" extends="base.definition">  
+        <put-attribute name="title" value="Product details" />  
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/_product_details.jsp" />
+    </definition>
+    
+    <!--  Shopping cart -->       
+    <definition name="shopping_cart" extends="base_nosidebar.definition">  
+        <put-attribute name="title" value="Shopping Cart" />
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/_shopping_cart.jsp" />
+    </definition>
+     <!--  shiopping billing address on checkout -->    
+     <definition name="checkout_address" extends="base_nosidebar.definition">  
+        <put-attribute name="title" value="Product detail" />
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/_checkout_address.jsp" />
+    </definition>
+    
+    <!--  get Payment info -->    
+     <definition name="getPaymentInfo" extends="base_nosidebar.definition">  
+        <put-attribute name="title" value="Product detail" />
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/_get_payment_info.jsp" />
+    </definition>
+    
+    <!--  agreement form window -->
+    
+     <definition name="agreement_form" extends="base_nosidebar.definition">  
+        <put-attribute name="title" value="Product detail" />
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/_agreement_form.jsp" />
+    </definition>
+    
+     <!-- final order window -->
+    
+     <definition name="final_order" extends="base_nosidebar.definition">  
+        <put-attribute name="title" value="Product detail" />
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/_final_order.jsp" />
+    </definition>
+    
+     <!-- Submit order -->
+    
+     <definition name="submit_order" extends="base_nosidebar.definition">  
+        <put-attribute name="title" value="Product detail" />
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/_submit_order.jsp" />
+     </definition>   
+    
+    
+    <!--  Order history -->
+    <definition name="myorder" extends="base.definition">  
+        <put-attribute name="title" value="Order History" />
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/_myorder.jsp" />
+    </definition>
+    
+    <!--  Order history -->
+    <definition name="myorder_details" extends="base.definition">  
+        <put-attribute name="title" value="Order details" />
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/_myorder_details.jsp" />
+    </definition>
+    
+    <!--  Adminitrator Page --> 
+    <definition name="admin_home" extends="base.definition">  
+        <put-attribute name="title" value="Maintain Home" />  
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/_admin_home.jsp" />
+    </definition>
+    
+     <definition name="admin_product_add" extends="base.definition">  
+        <put-attribute name="title" value="Maintain Products" />  
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/_admin_product_add.jsp" />
+    </definition>    
+    
+     <definition name="admin_product_list" extends="base.definition">  
+        <put-attribute name="title" value="Maintain Products" />  
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/_admin_product_list.jsp" />
+    </definition>
+    
+     <definition name="admin_catalog" extends="base.definition">  
+        <put-attribute name="title" value="Maintain Catalogs" />  
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/_admin_catalog.jsp" />
+    </definition>
+</tiles-definitions>
