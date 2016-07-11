@@ -23,7 +23,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/test" />
 		<property name="username" value="root" />
-		<property name="password" value="" />
+		<property name="password" value="admin123" />
 	</bean>
 	
 	<bean id="hibernateProperties"
@@ -69,7 +69,7 @@
 		<property name="driverClassName" value="org.gjt.mm.mysql.Driver" />
 		<property name="url" value="jdbc:mysql:///accountsdb" />
 		<property name="username" value="root" />
-		<property name="password" value="" />
+		<property name="password" value="admin123" />
 	</bean>
 	
 	<!--Where to load static resources (css, js, images) -->
