@@ -13,7 +13,8 @@ public interface Order {
 	public Address getShipAddress();
     public Address getBillAddress();
     public CreditCard getPaymentInfo();
-		
+	public User getUser();
+	public void setUser(User user);
     public void setDate(LocalDate date);
 	public void setShipAddress(Address add);
 	public void setBillAddress(Address add);

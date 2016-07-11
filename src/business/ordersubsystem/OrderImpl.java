@@ -5,39 +5,60 @@ import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import business.externalinterfaces.Address;
 import business.externalinterfaces.CreditCard;
 import business.externalinterfaces.Order;
 import business.externalinterfaces.OrderItem;
+import business.externalinterfaces.User;
 import business.users.AddressImpl;
 import business.users.CreditCardImpl;
+import business.users.UserImpl;
 
 @Entity
+@Table(name = "ordre")
 class OrderImpl implements Order {
 	@Id
 	@GeneratedValue
 	private int orderId;
 	
-	@OneToMany	
+	@OneToMany(cascade =  CascadeType.ALL)
+	@JoinColumn(name="order_id")
 	private List<OrderItemImpl> orderItems;	
 	
 	private LocalDate date;	
 	private double totalPriceAmount;
 	
 	@OneToOne
+	private UserImpl user;
+	
+	@OneToOne(cascade =  CascadeType.ALL)
 	private AddressImpl shipAddr;
 	
-	@OneToOne
+	@OneToOne(cascade =  CascadeType.ALL)
 	private AddressImpl billAddr;
 	
-	@OneToOne
+	@OneToOne(cascade =  CascadeType.ALL)
 	private CreditCardImpl creditCard;
+	
+
+	@Override
+	public User getUser() {
+		return this.user;
+	}
+
+	@Override
+	public void setUser(User user) {
+		this.user = (UserImpl)user;
+	}
 	
 	public double getTotalPriceAmount() {
 		return totalPriceAmount;

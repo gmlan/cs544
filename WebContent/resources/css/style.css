@@ -86,8 +86,9 @@ div.categoryitem div.description{
 
 .logo{
     float:left;
-    width:250px;
+    width:100px;
     height:50px;
+    margin-left:20px;
 }
 
 .navbar-brand{

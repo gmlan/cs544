@@ -3,17 +3,18 @@ package business.ordersubsystem;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import business.externalinterfaces.OrderItem;
 
 
 @Entity
+@Table(name = "orderitem")
 class OrderItemImpl implements OrderItem {
 	@Id
 	@GeneratedValue
 	private int orderItemId;	
 
-	private int orderId;
 	private String productName;
 	private int productId;
 	private int quantity;
@@ -35,14 +36,7 @@ class OrderItemImpl implements OrderItem {
 	public void setOrderItemId(int itemID) {
 		this.orderItemId = itemID;
 	}
-	public int getOrderId() {
-		return orderId;
-	}
-	public void setOrderId(int orderID) {
-		this.orderId = orderID;
-	}
-
-
+	
 	public String getProductName() {
 		return productName;
 	}
@@ -83,7 +77,6 @@ class OrderItemImpl implements OrderItem {
 	
 	public static OrderItemImpl clone(OrderItem orderItem) {
 		OrderItemImpl orderItemImpl = new OrderItemImpl();
-		orderItemImpl.setOrderId(orderItem.getOrderId());
 		orderItemImpl.setOrderItemId(orderItem.getOrderItemId());
 		orderItemImpl.setProductId(orderItem.getProductId());
 		orderItemImpl.setProductName(orderItem.getProductName());
