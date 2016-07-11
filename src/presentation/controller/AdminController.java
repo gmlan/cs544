@@ -27,6 +27,7 @@ import presentation.cache.CacheConstants;
 import presentation.cache.CacheLevel;
 import presentation.cache.CacheService;
 import presentation.data.ProductPres;
+import presentation.data.UserPres;
 
 @Controller
 @RequestMapping("/admin")
@@ -77,6 +78,19 @@ public class AdminController {
 	public String product(ModelMap modelMap) {
 		modelMap.addAttribute("newProduct", new ProductPres());
 		return "admin_product_add";
+	}
+	
+	@RequestMapping("/users")
+	public String getAllUsers(HttpServletRequest request, ModelMap modelMap){
+		List<Product> products = CacheService.execute(request, productSubsystem, "getProductList");		
+		modelMap.addAttribute("products", products);
+		return "admin_user_list";
+	}
+
+	@RequestMapping("/user")
+	public String user(ModelMap modelMap) {
+		modelMap.addAttribute("newUser", new UserPres());
+		return "admin_user_add";
 	}
 
 	@RequestMapping(value = "/product", method = RequestMethod.POST)
