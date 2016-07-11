@@ -3,9 +3,12 @@ package business.users;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -23,17 +26,26 @@ public class UserImpl implements User {
 	private String password;
 	private String firstname;
 	private String lastname;
-	@OneToOne
+
+	@OneToOne(cascade = CascadeType.ALL)
 	private AddressImpl defaultShippingAddress;
-	@OneToOne
+
+	@OneToOne(cascade = CascadeType.ALL)
 	private AddressImpl defaultBillingAddress;
-	@OneToOne
+
+	@OneToOne(cascade = CascadeType.ALL)
 	private CreditCardImpl defaultCreditCard;
-	@OneToMany
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "user_shipping")
 	private List<AddressImpl> shippingAddress;
-	@OneToMany
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "user_billing")
 	private List<AddressImpl> billingAddress;
-	@OneToMany
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn
 	private List<CreditCardImpl> creditCard;
 
 	public UserImpl() {
@@ -161,5 +173,25 @@ public class UserImpl implements User {
 	@Override
 	public int getId() {
 		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public static UserImpl clone(User user) {
+		UserImpl userClone = new UserImpl();
+		userClone.setId(user.getId());
+		userClone.setUsername(user.getUsername());
+		userClone.setPassword(user.getPassword());
+		userClone.setFirstname(user.getFirstname());
+		userClone.setLastname(user.getLastname());
+		userClone.setDefaultBillingAddress(user.getDefaultBillingAddress());
+		userClone.setDefaultShippingAddress(user.getDefaultShippingAddress());
+		userClone.setDefaultCreditCard(user.getDefaultCreditCard());
+		userClone.setShippingAddress(user.getShippingAddress());
+		userClone.setBillingAddress(user.getBillingAddress());
+		userClone.setCreditCard(user.getCreditCard());
+		return userClone;
 	}
 }

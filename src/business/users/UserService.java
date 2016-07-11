@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import business.exceptions.BackendException;
 import business.externalinterfaces.User;
 
 @Service
@@ -19,17 +20,20 @@ public class UserService {
 		return userDAO.findObjectById(id);
 	}
 
-	public List<User> getAllUsers() {
+	public List<UserImpl> getAllUsers() {
 		return userDAO.findObjects();
 	}
-	
-	
-	public void updateUser(User user){
+
+	public void updateUser(UserImpl user) {
 		userDAO.update(user);
 	}
-	
-	public void delete(int id){
+
+	public void delete(int id) {
 		userDAO.delete(id);
+	}
+
+	public void addUser(User user) throws BackendException {
+		userDAO.save(UserImpl.clone(user));
 	}
 
 }

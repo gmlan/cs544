@@ -16,13 +16,16 @@ public class AddressImpl implements Address {
 	private String street;
 	private String city;
 	private String state;
+	private boolean isShip;
 
-	public AddressImpl(String zip, String street, String city, String state) {
+	public AddressImpl(int id, String zip, String street, String city, String state, boolean isShip) {
 		super();
+		this.id = id;
 		this.zip = zip;
 		this.street = street;
 		this.city = city;
 		this.state = state;
+		this.isShip = isShip;
 	}
 
 	public AddressImpl() {
@@ -71,14 +74,12 @@ public class AddressImpl implements Address {
 
 	@Override
 	public boolean isShippingAddress() {
-		// TODO Auto-generated method stub
-		return false;
+		return isShip;
 	}
 
 	@Override
 	public boolean isBillingAddress() {
-		// TODO Auto-generated method stub
-		return false;
+		return !isShip;
 	}
 
 	@Override
@@ -91,15 +92,12 @@ public class AddressImpl implements Address {
 		this.id = id;
 
 	}
-	
+
 	public static AddressImpl clone(Address address) {
-		AddressImpl addressImpl = new AddressImpl(
-				address.getStreet(), 
-				address.getCity(),
-				address.getState(),
-				address.getZip());		
+		AddressImpl addressImpl = new AddressImpl(address.getId(), address.getStreet(), address.getCity(),
+				address.getState(), address.getZip(), address.isShippingAddress());
 		addressImpl.setId(address.getId());
 		return addressImpl;
-	}	
+	}
 
 }
