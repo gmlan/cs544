@@ -7,14 +7,14 @@
          <h3 class="panel-title">Please sign in</h3>
      </div>
      <div class="panel-body">
-         <form:form modelAttribute="login" action="${pageContext.request.contextPath}/login" method="post">
+         <form:form modelAttribute="login" action="${pageContext.request.contextPath}/loginuser" method="post">
              <form:errors path="*" cssClass="alert alert-danger" element="div"/>
              <fieldset>
                  <div class='form-group'>
-                     <form:input class="form-control" placeholder="User Name" path='loginId' type="text" />
+                     <form:input class="form-control" placeholder="User Name" path='loginId' type="text" name="j_username"/>
                  </div>
                  <div class="form-group">
-                     <form:input class='form-control' placeholder="Password"	path='password' type="password" />
+                     <form:input class='form-control' placeholder="Password"	path='password' type="password" name="j_password"/>
                  </div>
                  <div class="form-group">
                      <div class="checkbox">
