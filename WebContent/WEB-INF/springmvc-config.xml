@@ -21,9 +21,9 @@
 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/test" />
-		<property name="username" value="root" />
-		<property name="password" value="admin" />
+		<property name="url" value="jdbc:mysql://us-cdbr-iron-east-04.cleardb.net/ad_20dda9987f31e12" />
+		<property name="username" value="b564871b2a7b9b" />
+		<property name="password" value="69beb3d5" />
 	</bean>
 	
 	<bean id="hibernateProperties"
