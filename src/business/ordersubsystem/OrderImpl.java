@@ -19,9 +19,9 @@ import business.externalinterfaces.CreditCard;
 import business.externalinterfaces.Order;
 import business.externalinterfaces.OrderItem;
 import business.externalinterfaces.User;
-import business.users.AddressImpl;
-import business.users.CreditCardImpl;
-import business.users.UserImpl;
+import business.usersubsystem.AddressImpl;
+import business.usersubsystem.CreditCardImpl;
+import business.usersubsystem.UserImpl;
 
 @Entity
 @Table(name = "ordre")

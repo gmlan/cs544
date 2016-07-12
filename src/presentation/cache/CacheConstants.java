@@ -9,4 +9,6 @@ public class CacheConstants {
 	public static final String CACHE_CATALOGS_ITEM = "cache_catalogs_{0}";
 	public static final String CACHE_PRODUCTS_ITEM = "cache_products_{0}";
 
+	public static final String CACHE_USERS = "cache_users";
+	public static final String CACHE_USERS_BY_ID = "cache_users_{0}";
 }

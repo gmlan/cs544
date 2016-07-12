@@ -1,5 +1,6 @@
-package business.users;
+package business.usersubsystem;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,18 +38,21 @@ public class UserImpl implements User {
 	private CreditCardImpl defaultCreditCard;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_shipping")
+	@JoinColumn(name = "user_shipping")
 	private List<AddressImpl> shippingAddress;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_billing")
+	@JoinColumn(name = "user_billing")
 	private List<AddressImpl> billingAddress;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn
+	@JoinColumn(name="user_id")
 	private List<CreditCardImpl> creditCard;
 
 	public UserImpl() {
+		shippingAddress = new ArrayList<>();
+		billingAddress = new ArrayList<>();
+		creditCard = new ArrayList<>();
 	}
 
 	public UserImpl(String username, String password, String firstname, String lastname,
@@ -146,7 +150,6 @@ public class UserImpl implements User {
 	@Override
 	public void setShippingAddress(List<? extends Address> shippingAddress) {
 		this.shippingAddress = shippingAddress.stream().map(add -> AddressImpl.clone(add)).collect(Collectors.toList());
-
 	}
 
 	@Override
@@ -175,8 +178,9 @@ public class UserImpl implements User {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	@Override
+	public int setId(Integer id) {
+		return this.id = id;
 	}
 
 	public static UserImpl clone(User user) {
@@ -194,4 +198,5 @@ public class UserImpl implements User {
 		userClone.setCreditCard(user.getCreditCard());
 		return userClone;
 	}
+
 }

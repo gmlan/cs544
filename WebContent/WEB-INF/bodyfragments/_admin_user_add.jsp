@@ -18,10 +18,10 @@
 <br>
 <c:choose>
 	<c:when test="${empty isEdit}">
-		<h3>Add new User</h3>
+		<h3>Register</h3>
 	</c:when>
 	<c:otherwise>
-		<h3>Edit User</h3>
+		<h3>Edit Profile</h3>
 	</c:otherwise>
 </c:choose>
 <hr>

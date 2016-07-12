@@ -12,8 +12,8 @@ import business.externalinterfaces.CreditCard;
 import business.externalinterfaces.Order;
 import business.externalinterfaces.OrderItem;
 import business.externalinterfaces.OrderSubsystem;
-import business.users.AddressImpl;
-import business.users.CreditCardImpl;
+import business.usersubsystem.AddressImpl;
+import business.usersubsystem.CreditCardImpl;
 
 
 @Service

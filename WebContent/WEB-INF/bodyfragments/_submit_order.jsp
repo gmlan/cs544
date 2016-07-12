@@ -9,7 +9,7 @@
 		<div class="panel panel-default">
 	    <div class="panel-heading">Order Successful</div>
 			    <div class="panel-body">
-			    Thank you for shopping with EBazzar. Your order has been received and processed.
+			    Thank you for shopping with us. Your order has been received and processed.
 			    You will get the deliveries in a 2 to 3 working days.
 				</div>
 	  </div>

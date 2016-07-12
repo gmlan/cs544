@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import business.externalinterfaces.Address;
 import business.externalinterfaces.CreditCard;
-import business.users.AddressImpl;
-import business.users.CreditCardImpl;
+import business.usersubsystem.AddressImpl;
+import business.usersubsystem.CreditCardImpl;
 
 public class CheckoutModel implements Serializable{
 	/**

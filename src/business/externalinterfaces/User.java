@@ -36,4 +36,6 @@ public interface User {
 	public void setCreditCard(List<? extends CreditCard> creditCard);
 	
 	public int getId();
+	
+	public int setId(Integer id);
 }

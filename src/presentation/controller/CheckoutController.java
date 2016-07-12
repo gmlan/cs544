@@ -19,6 +19,7 @@ import business.externalinterfaces.Address;
 import business.externalinterfaces.Order;
 import business.externalinterfaces.OrderItem;
 import business.externalinterfaces.OrderSubsystem;
+import business.usersubsystem.UserImpl;
 import presentation.data.CartItemData;
 import presentation.data.CheckoutModel;
 
@@ -94,17 +95,27 @@ public class CheckoutController {
 			orderItems.add(orderItem);
 		}
 		
+		
+		UserImpl userImpl = new UserImpl();
+		userImpl.setId(1);
+		userImpl.setFirstname("firstName");
+		userImpl.setLastname("lastname");
+		
 		Address shippingAddress = checkoutModelInSession.getShippingAddress();
 		if(checkoutModelInSession.isSaveShippingAddress()){
 			//bind to user
+			userImpl.setDefaultShippingAddress(shippingAddress);
+			
 		}
 		
 		Address billingAddress = checkoutModelInSession.getBillingAddress();
 		if(checkoutModelInSession.isSaveBillingAddress()){
 			//bind to user
+			userImpl.setDefaultBillingAddress(billingAddress);
 		}
-		
+	
 		Order order = orderSubsystem.createOrder();
+		order.setUser(userImpl);
 		order.setBillAddress(billingAddress);
 		order.setShipAddress(shippingAddress);
 		order.setPaymentInfo(checkoutModelInSession.getCreditCard());		

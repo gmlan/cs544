@@ -1,4 +1,4 @@
-package business.users;
+package business.usersubsystem;
 
 import org.springframework.stereotype.Repository;
 

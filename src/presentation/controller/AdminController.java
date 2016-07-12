@@ -23,6 +23,7 @@ import business.exceptions.BackendException;
 import business.externalinterfaces.Catalog;
 import business.externalinterfaces.Product;
 import business.externalinterfaces.ProductSubsystem;
+import business.externalinterfaces.UserSubsystem;
 import presentation.cache.CacheConstants;
 import presentation.cache.CacheLevel;
 import presentation.cache.CacheService;
@@ -36,6 +37,10 @@ public class AdminController {
 	@Autowired
 	@Qualifier("ProductCacheService")
 	ProductSubsystem productSubsystem;
+	
+	@Autowired
+	@Qualifier("UserCacheService")
+	UserSubsystem userSubsystem;
 
 	@RequestMapping
 	public String index(HttpServletRequest request) {
@@ -82,15 +87,9 @@ public class AdminController {
 	
 	@RequestMapping("/users")
 	public String getAllUsers(HttpServletRequest request, ModelMap modelMap){
-		List<Product> products = CacheService.execute(request, productSubsystem, "getProductList");		
+		List<Product> products = CacheService.execute(request, userSubsystem, "getUserList");		
 		modelMap.addAttribute("products", products);
 		return "admin_user_list";
-	}
-
-	@RequestMapping("/user")
-	public String user(ModelMap modelMap) {
-		modelMap.addAttribute("newUser", new UserPres());
-		return "admin_user_add";
 	}
 
 	@RequestMapping(value = "/product", method = RequestMethod.POST)

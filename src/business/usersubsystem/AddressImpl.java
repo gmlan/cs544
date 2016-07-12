@@ -1,4 +1,4 @@
-package business.users;
+package business.usersubsystem;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

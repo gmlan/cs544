@@ -1,24 +1,48 @@
 package presentation.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import business.exceptions.BackendException;
+import business.externalinterfaces.Address;
+import business.externalinterfaces.CreditCard;
+import business.externalinterfaces.UserSubsystem;
+import business.usersubsystem.AddressImpl;
+import business.usersubsystem.CreditCardImpl;
+import business.usersubsystem.UserImpl;
 import presentation.data.Login;
+import presentation.data.UserPres;
 import presentation.util.Constants;
 
 @Controller
 public class LogginController {
 
+	@Autowired
+	@Qualifier("UserCacheService")
+	UserSubsystem userSubsystem;
+
+	
+	@RequestMapping("/register")
+	public String user(ModelMap modelMap) throws BackendException {
+		modelMap.addAttribute("newUser", new UserPres());
+		return "admin_user_add";
+	}
+	
 	@RequestMapping(value = "/login", method = {RequestMethod.GET})
 	public String index(Model model) {
 		Login login = new Login(0, "");

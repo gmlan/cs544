@@ -152,6 +152,8 @@
 					<i class="fa fa-caret-down"></i>
 			</a>
 				<ul class="dropdown-menu dropdown-user">
+					<li><a href="register"><i class="fa fa-gift fa-fw"></i> Register</a></li>
+					<li class="divider"></li>
 					<li><a href="login"><i class="fa fa-sign-in fa-fw"></i>Login</a></li>
 				</ul> <!-- /.dropdown-user --></li>
 		</ul>
