@@ -7,9 +7,10 @@
     http://www.springframework.org/schema/security/spring-security.xsd">
 
 	<sec:http>
-		<sec:intercept-url pattern="/admin**" access="hasAuthority('ROLE_ADMIN')" />
+		<sec:intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')" />
 		<sec:form-login login-page="/loginuser"
-			default-target-url="/" />
+			default-target-url="/" authentication-failure-url="/loginuser?error"
+			username-parameter="username" password-parameter="password" />
 		<sec:logout />
 		<sec:csrf disabled="true" />
 	</sec:http>
