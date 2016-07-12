@@ -19,9 +19,11 @@ import business.externalinterfaces.Address;
 import business.externalinterfaces.Order;
 import business.externalinterfaces.OrderItem;
 import business.externalinterfaces.OrderSubsystem;
+import business.externalinterfaces.User;
 import business.usersubsystem.UserImpl;
 import presentation.data.CartItemData;
 import presentation.data.CheckoutModel;
+import presentation.util.Constants;
 
 @Controller
 public class CheckoutController {
@@ -31,38 +33,28 @@ public class CheckoutController {
 
 	@RequestMapping(value = { "/mycheckout" }, method = RequestMethod.GET)
 	public String checkoutCart(ModelMap modelMap,HttpServletRequest request) throws BackendException{				
-		//Update live shopping cart with session data		
-		Address defaultShipAddress = orderSubsystem.createAddress(); // checkoutData.getDefaultShippingData();
-		Address defaultBillAddress = orderSubsystem.createAddress();// checkoutData.getDefaultBillingData();
-		
+		User user = (User)request.getSession().getAttribute(Constants.LOGGED_IN_USERINFO);		
 		CheckoutModel checkoutModel = new CheckoutModel();
-		checkoutModel.setShippingAddress(defaultShipAddress);
-		checkoutModel.setBillingAddress(defaultBillAddress);
+		checkoutModel.setShippingAddress(user.getDefaultShippingAddress());
+		checkoutModel.setBillingAddress(user.getDefaultBillingAddress());
 		
-		modelMap.addAttribute("checkoutmodel", checkoutModel);
-		
-		
-		List<Address> addresses = new ArrayList<>();
-		addresses.add(orderSubsystem.createAddress());
-		addresses.add(orderSubsystem.createAddress());
-		
-		
-		modelMap.addAttribute("allShipAddresses", addresses);
-		modelMap.addAttribute("allBillAddresses", addresses);
+		modelMap.addAttribute("checkoutmodel", checkoutModel);		
+		modelMap.addAttribute("allShipAddresses", user.getShippingAddress());
+		modelMap.addAttribute("allBillAddresses", user.getBillingAddress());
 		return "checkout_address";
 	}
 	
 	@RequestMapping(value = {"/mypaymentinfo"}, method= RequestMethod.POST)
 	public String getPaymentInfo(ModelMap modelMap, @ModelAttribute("checkoutmodel") CheckoutModel checkoutModel, HttpServletRequest request){		 
 		//save shipping & billing info here
-		checkoutModel.setCreditCard(orderSubsystem.createCreditCard());
+		User user = (User)request.getSession().getAttribute(Constants.LOGGED_IN_USERINFO);
+		checkoutModel.setCreditCard(user.getDefaultCreditCard());
 		request.getSession().setAttribute("checkoutmodel", checkoutModel);
 		return "getPaymentInfo";
 	}
 	
 	@RequestMapping(value={"/myagreement"},method=RequestMethod.POST)
 	public String getAgreement(HttpServletRequest request, @ModelAttribute("checkoutmodel") CheckoutModel checkoutModel){
-		
 		CheckoutModel checkoutModelInSession = (CheckoutModel) request.getSession().getAttribute("checkoutmodel");
 		checkoutModelInSession.setCreditCard(checkoutModel.getCreditCard());
 		return "agreement_form";
@@ -94,28 +86,23 @@ public class CheckoutController {
 			orderItem.setUnitPrice(itemData.getPrice());
 			orderItems.add(orderItem);
 		}
-		
-		
-		UserImpl userImpl = new UserImpl();
-		userImpl.setId(1);
-		userImpl.setFirstname("firstName");
-		userImpl.setLastname("lastname");
-		
+				
+		User user = (User)request.getSession().getAttribute(Constants.LOGGED_IN_USERINFO);
 		Address shippingAddress = checkoutModelInSession.getShippingAddress();
 		if(checkoutModelInSession.isSaveShippingAddress()){
 			//bind to user
-			userImpl.setDefaultShippingAddress(shippingAddress);
+			user.setDefaultShippingAddress(shippingAddress);
 			
 		}
 		
 		Address billingAddress = checkoutModelInSession.getBillingAddress();
 		if(checkoutModelInSession.isSaveBillingAddress()){
 			//bind to user
-			userImpl.setDefaultBillingAddress(billingAddress);
+			user.setDefaultBillingAddress(billingAddress);
 		}
 	
 		Order order = orderSubsystem.createOrder();
-		order.setUser(userImpl);
+		order.setUser(user);
 		order.setBillAddress(billingAddress);
 		order.setShipAddress(shippingAddress);
 		order.setPaymentInfo(checkoutModelInSession.getCreditCard());		

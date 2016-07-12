@@ -3,11 +3,15 @@ package business.externalinterfaces;
 import java.util.List;
 
 import business.exceptions.BackendException;
+import core.domain.QueryHelper;
 
 public interface ProductSubsystem {
 	
 	/****************** Product *********************/
 	public int readQuantityAvailable(Product product) throws BackendException;
+	
+	/** customized query **/
+	public List<Product> findProducts(QueryHelper queryHelper);
 	
 	/** update Product */
 	public void updateProduct(Product product) throws BackendException;

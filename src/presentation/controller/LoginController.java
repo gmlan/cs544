@@ -48,16 +48,26 @@ public class LoginController {
 			@ModelAttribute("login") Login login, Model model, BindingResult result) {
 		String username = login.getLoginId();
 		String password = login.getPassword();
-		User user = userSubsystem.getUserFromUsernameAndPassword(username, password);
+		
+		//We need to set a default administrator in web.xml in case Users table is empty
+        if("root".equals(username.toLowerCase()) &&
+                request.getServletContext().getInitParameter("root_password").equals(password)){
+            login.setAdmin(true);
+        }
+        else{
+        	User user = userSubsystem.getUserFromUsernameAndPassword(username, password);
+    		if (user == null)
+    			return "login";
+    		
+    		login.setAdmin(user.getAuthority() != null && user.getAuthority().equals("ROLE_ADMIN"));
 
-		if (user == null)
-			return "login";
-
-		login.setLoggedIn(true);
-		login.setAdmin(user.getAuthority().equals("ROLE_ADMIN"));
-
+    		//kept in session
+    		request.getSession().setAttribute(Constants.LOGGED_IN_USERINFO, user);
+        }     
+        
+        login.setLoggedIn(true);
 		request.getSession().setAttribute(Constants.LOGGED_IN, login);
-		request.getSession().setAttribute(Constants.LOGGED_IN_USERINFO, user);
+		
 		String lastVisitedUrl = (String) request.getSession().getAttribute(Constants.LAST_REQUEST_URL);
 
 		if (lastVisitedUrl != null && lastVisitedUrl.length() > 0) {

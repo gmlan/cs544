@@ -116,6 +116,11 @@ public class AdminController {
 
 		if (productToBeAdded.getProductId() != 0) {
 			CacheService.execute(request, productSubsystem, "updateProduct", new Object[]{productToBeAdded});
+			
+			//clear product detail cache
+			String key = CacheService.parseKey(new Object[]{productToBeAdded.getProductId()}, CacheConstants.CACHE_PRODUCTS_ITEM);
+			CacheService.clearCache(request, CacheLevel.Application, key);
+
 		} else {
 			productId = CacheService.execute(request, productSubsystem, "saveNewProduct", new Object[]{productToBeAdded});
 		}
@@ -124,22 +129,23 @@ public class AdminController {
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 
 		if (productImage != null && !productImage.isEmpty()) {
+			String savePath = rootDirectory + "resources" + File.separatorChar + "images" + File.separatorChar + productId + ".png";
 			try {
-				productImage.transferTo(new File(rootDirectory + "resources\\images\\" + productId + ".png"));
+				productImage.transferTo(new File(savePath));
 			} catch (Exception e) {
 				throw new RuntimeException("Product Image saving failed", e);
 			}
 		} 
 		
-		//TODO: need to remove CACHE_PRODUCTS_BY_CATALOG cache
-		
+		String key = CacheService.parseKey(new Object[]{productToBeAdded.getCatalog()}, CacheConstants.CACHE_PRODUCTS_BY_CATALOG);
+		CacheService.clearCache(request, CacheLevel.Application, key);
+
 		return "redirect:/admin/products";
 	}
 
 	@RequestMapping(value = "/products/edit/{id}")
 	public String editProduct(@PathVariable int id, HttpServletRequest request, ModelMap modelMap) {
-		Product product = null;
-		product = CacheService.execute(request, productSubsystem, "getProductFromId", new Object[]{id});
+		Product product = CacheService.execute(request, productSubsystem, "getProductFromId", new Object[]{id});
 		modelMap.addAttribute("newProduct", ProductPres.Clone(product));
 		modelMap.addAttribute("isEdit", true);
 
@@ -148,11 +154,13 @@ public class AdminController {
 
 	@RequestMapping(value = "/products/delete/{id}")
 	public String deleteProduct(@PathVariable int id, HttpServletRequest request) {
-		ProductPres product = new ProductPres(id);			
+		Product product = CacheService.execute(request, productSubsystem, "getProductFromId", new Object[]{id});
 		CacheService.execute(request, productSubsystem, "deleteProduct", new Object[]{ product });
 		
-		//TODO: need to remove CACHE_PRODUCTS_BY_CATALOG cache
-		
+		//Remove current product from catalog by force cacalog to reload		 		
+		String key = CacheService.parseKey(new Object[]{ product.getCatalog()}, CacheConstants.CACHE_PRODUCTS_BY_CATALOG);
+		CacheService.clearCache(request, CacheLevel.Application, key);
+
 		return "redirect:/admin/products";
 	}
 

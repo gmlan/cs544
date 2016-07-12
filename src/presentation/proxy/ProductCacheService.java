@@ -9,6 +9,7 @@ import business.exceptions.BackendException;
 import business.externalinterfaces.Catalog;
 import business.externalinterfaces.Product;
 import business.externalinterfaces.ProductSubsystem;
+import core.domain.QueryHelper;
 import presentation.cache.CacheConstants;
 import presentation.cache.CacheLevel;
 import presentation.cache.CacheSettings;
@@ -20,6 +21,12 @@ public class ProductCacheService implements ProductSubsystem {
 	private ProductSubsystem productSubsystem;
 	
 	public ProductCacheService() {
+	}
+	
+	@Override
+	@CacheSettings(addKey = CacheConstants.CACHE_PRODUCTS_ITEM, cacheLevel = CacheLevel.Application)
+	public List<Product> findProducts(QueryHelper queryHelper) {
+		return productSubsystem.findProducts(queryHelper);
 	}
 
 	@Override

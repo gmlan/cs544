@@ -10,10 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 public final class CacheService {
 
 	private CacheService() {
-	}	
+	}
+	
+	public static void clearCache(HttpServletRequest request, CacheLevel level, String key){
+		if(!key.isEmpty()){
+			saveToCache(request, level, key, null);
+		}
+	}
 	
 	public static <T> T queryCache(HttpServletRequest request, CacheLevel level, String key){
-		return readFromCache(request, level, key);
+		if(!key.isEmpty()){
+			return readFromCache(request, level, key);
+		}
+		return null;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -29,9 +38,12 @@ public final class CacheService {
 			//remove if set
 			if(cacheResult.getRemoveKeys().size() != 0){
 				for(String key : cacheResult.getRemoveKeys()){
-					saveToCache(request, cacheResult.getCacheLevel(), key, null);
+					if(!key.isEmpty()){
+						saveToCache(request, cacheResult.getCacheLevel(), key, null);
+					}
 				}
 			}
+			
 			if(cacheResult.getAddKey().isEmpty()){//no cache
 				objInCache = (T) cacheResult.getMethod().invoke(caller, params);
 			}
@@ -58,20 +70,24 @@ public final class CacheService {
 
 	@SuppressWarnings("unchecked")
 	private static <T> T readFromCache(HttpServletRequest request, CacheLevel level, String key) {
-		if (level == CacheLevel.Application) {
-			return (T) request.getServletContext().getAttribute(key);
-		} else if (level == CacheLevel.Session) {
-			return (T) request.getSession().getAttribute(key);
+		T result = null;
+		if(!key.isEmpty()){
+			if (level == CacheLevel.Application) {
+				result = (T)request.getServletContext().getAttribute(key);
+			} else if (level == CacheLevel.Session) {
+				result = (T)request.getSession().getAttribute(key);
+			}
 		}
-
-		return null;
+		return result;
 	}
 
 	private static <T> void saveToCache(HttpServletRequest request, CacheLevel level, String key, T obj) {
-		if (level == CacheLevel.Application) {
-			request.getServletContext().setAttribute(key, obj);
-		} else if (level == CacheLevel.Session) {
-			request.getSession().setAttribute(key, obj);
+		if(!key.isEmpty()){
+			if (level == CacheLevel.Application) {
+				request.getServletContext().setAttribute(key, obj);
+			} else if (level == CacheLevel.Session) {
+				request.getSession().setAttribute(key, obj);
+			}
 		}
 	}
 
@@ -100,11 +116,10 @@ public final class CacheService {
 				break;
 			}
 		}
-
 		return result;
 	}
 
-	private static String parseKey(Object[] params, String key) {
+	public static String parseKey(Object[] params, String key) {
 		String result = key;
 		for(int i = 0; i < params.length; i++){
 			String placeHolder = "{" + i + "}";
@@ -117,10 +132,11 @@ public final class CacheService {
 	
 	private static List<String> parseKeys(Object[] params, String[] keys) {
 		List<String> result = new ArrayList<>();
-		for(String key : keys){			 
-			result.add(parseKey(params, key));
-		}
-		
+		for(String key : keys){
+			if(!key.isEmpty()){
+				result.add(parseKey(params, key));
+			}
+		}		
 		return result;
 	}	
 }

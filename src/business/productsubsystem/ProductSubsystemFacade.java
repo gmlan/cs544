@@ -1,7 +1,7 @@
 package business.productsubsystem;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,7 @@ import business.exceptions.BackendException;
 import business.externalinterfaces.Catalog;
 import business.externalinterfaces.Product;
 import business.externalinterfaces.ProductSubsystem;
+import core.domain.QueryHelper;
 
 
 @Service
@@ -23,21 +24,12 @@ public class ProductSubsystemFacade implements ProductSubsystem {
 	
 	@Autowired
 	CatalogDAO catalogDAO;
-	/*
-	public static Catalog createCatalog(int id, String name) {
-		return new CatalogImpl(id, name); 
+	
+	public List<Product> findProducts(QueryHelper queryHelper) {
+		return new ArrayList<>(productDAO.findObjects(queryHelper));
 	}
- 
-	public static Product createProduct(Catalog c, String name, 
-			LocalDate date, int numAvail, double price) {
-		return new ProductImpl(c, name, date, numAvail, price);
-	}
-	public static Product createProduct(Catalog c, Integer pi, String pn, int qa, 
-			double up, LocalDate md, String desc) {
-		return new ProductImpl(c, pi, pn, qa, up, md, desc);
-	}
-*/	
-	@Override
+	
+	
 	public int readQuantityAvailable(Product product) throws BackendException {
 		Product p  = productDAO.findObjectById(product.getProductId());
 		return p.getQuantityAvail();
