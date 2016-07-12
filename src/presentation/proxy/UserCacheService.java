@@ -47,5 +47,11 @@ public class UserCacheService implements UserSubsystem {
 	public void deleteUser(User user) throws BackendException {
 		userSubsystem.deleteUser(user);
 	}
+
+	@Override
+	@CacheSettings(addKey = CacheConstants.CACHE_USERS_BY_ID, cacheLevel = CacheLevel.Application)
+	public User getUserFromUsernameAndPassword(String username, String password) {
+		return userSubsystem.getUserFromUsernameAndPassword(username, password);
+	}
 	
 }

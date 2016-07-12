@@ -6,7 +6,7 @@ import core.dao.impl.BaseDaoImpl;
 
 @Repository
 public class UserDAO extends BaseDaoImpl<UserImpl> {
-	
+
 	public UserDAO() {
 	}
 }

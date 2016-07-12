@@ -5,28 +5,41 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.Index;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SecondaryTable;
+import javax.persistence.Table;
 
 import business.externalinterfaces.Address;
 import business.externalinterfaces.CreditCard;
 import business.externalinterfaces.User;
 
 @Entity
+@Table(name = "users")
+@SecondaryTable(name = "user_roles", pkJoinColumns = {
+		@PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id") }, indexes = {
+				@Index(columnList = "user_id") })
 public class UserImpl implements User {
 
 	@Id
 	@GeneratedValue
 	private int id;
+	@Column(length = 45)
 	private String username;
+	@Column(length = 45)
 	private String password;
 	private String firstname;
 	private String lastname;
+	private boolean enabled;
+	@Column(table = "user_roles")
+	private String authority;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private AddressImpl defaultShippingAddress;
@@ -38,15 +51,14 @@ public class UserImpl implements User {
 	private CreditCardImpl defaultCreditCard;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_shipping")
+	@JoinTable(name = "user_shipping")
 	private List<AddressImpl> shippingAddress;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_billing")
+	@JoinTable(name = "user_billing")
 	private List<AddressImpl> billingAddress;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="user_id")
 	private List<CreditCardImpl> creditCard;
 
 	public UserImpl() {
@@ -55,14 +67,18 @@ public class UserImpl implements User {
 		creditCard = new ArrayList<>();
 	}
 
-	public UserImpl(String username, String password, String firstname, String lastname,
-			AddressImpl defaultShippingAddress, AddressImpl defaultBillingAddress, CreditCardImpl defaultCreditCard,
-			List<AddressImpl> shippingAddress, List<AddressImpl> billingAddress, List<CreditCardImpl> creditCard) {
+	public UserImpl(int id, String username, String password, String firstname, String lastname, boolean enabled,
+			String authority, AddressImpl defaultShippingAddress, AddressImpl defaultBillingAddress,
+			CreditCardImpl defaultCreditCard, List<AddressImpl> shippingAddress, List<AddressImpl> billingAddress,
+			List<CreditCardImpl> creditCard) {
 		super();
+		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.firstname = firstname;
 		this.lastname = lastname;
+		this.enabled = enabled;
+		this.authority = authority;
 		this.defaultShippingAddress = defaultShippingAddress;
 		this.defaultBillingAddress = defaultBillingAddress;
 		this.defaultCreditCard = defaultCreditCard;
@@ -183,6 +199,26 @@ public class UserImpl implements User {
 		return this.id = id;
 	}
 
+	@Override
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	@Override
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	@Override
+	public String getAuthority() {
+		return authority;
+	}
+
+	@Override
+	public void setAuthority(String authority) {
+		this.authority = authority;
+	}
+
 	public static UserImpl clone(User user) {
 		UserImpl userClone = new UserImpl();
 		userClone.setId(user.getId());
@@ -196,6 +232,8 @@ public class UserImpl implements User {
 		userClone.setShippingAddress(user.getShippingAddress());
 		userClone.setBillingAddress(user.getBillingAddress());
 		userClone.setCreditCard(user.getCreditCard());
+		userClone.setEnabled(user.isEnabled());
+		userClone.setAuthority(user.getAuthority());
 		return userClone;
 	}
 
