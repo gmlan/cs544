@@ -30,7 +30,7 @@ import presentation.data.UserPres;
 import presentation.util.Constants;
 
 @Controller
-public class LogginController {
+public class LoginController {
 
 	@Autowired
 	@Qualifier("UserCacheService")

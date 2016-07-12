@@ -128,7 +128,7 @@ public class CheckoutController {
 			e.printStackTrace();
 		}
 		
-		//Clear shopping car
+		//Clear shopping cart
 		session.setAttribute("cartDataItems", null);
 		 
 		return "submit_order";

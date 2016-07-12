@@ -28,7 +28,6 @@ import presentation.cache.CacheConstants;
 import presentation.cache.CacheLevel;
 import presentation.cache.CacheService;
 import presentation.data.ProductPres;
-import presentation.data.UserPres;
 
 @Controller
 @RequestMapping("/admin")

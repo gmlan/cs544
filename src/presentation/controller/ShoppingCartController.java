@@ -55,7 +55,7 @@ public class ShoppingCartController {
 			availQuantity = product.getQuantityAvail();
 					
 			 if(val > availQuantity){
-				 throw new BusinessException("What you order is excess the available quantity");
+				 throw new BusinessException("What you order excess the available quantity");
 			 }
 			
 			//Pass rule check
