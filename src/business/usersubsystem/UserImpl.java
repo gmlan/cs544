@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -51,14 +51,15 @@ public class UserImpl implements User {
 	private CreditCardImpl defaultCreditCard;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_shipping")
+	@JoinColumn(name = "user_shipping")
 	private List<AddressImpl> shippingAddress;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_billing")
+	@JoinColumn(name = "user_billing")
 	private List<AddressImpl> billingAddress;
 
 	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_creditcard")
 	private List<CreditCardImpl> creditCard;
 
 	public UserImpl() {
