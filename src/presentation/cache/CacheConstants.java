@@ -11,4 +11,6 @@ public class CacheConstants {
 
 	public static final String CACHE_USERS = "cache_users";
 	public static final String CACHE_USERS_BY_ID = "cache_users_{0}";
+	
+	public static final String CACHE_ORDER_HISTORY = "cache_order_history";
 }

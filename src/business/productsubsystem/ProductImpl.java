@@ -169,8 +169,13 @@ class ProductImpl implements Product, Serializable {
 	}
 
 	public static ProductImpl Clone(Product product) {
-		return new ProductImpl(product.getCatalog(), product.getProductId(), product.getProductName(), product.getQuantityAvail(),
+		if(product instanceof ProductImpl){
+			return (ProductImpl) product;
+		}
+		else{
+			return new ProductImpl(product.getCatalog(), product.getProductId(), product.getProductName(), product.getQuantityAvail(),
 				product.getUnitPrice(), product.getMfgDate(), product.getDescription());
+		}
 	}
 
 	@Override

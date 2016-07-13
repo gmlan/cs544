@@ -73,12 +73,17 @@ public class CreditCardImpl implements CreditCard {
 	
 
 	public static CreditCardImpl clone(CreditCard creditCard){
-		return new CreditCardImpl(
+		if(creditCard instanceof CreditCardImpl){
+			return (CreditCardImpl) creditCard;
+		}
+		else{
+			return new CreditCardImpl(
 				creditCard.getId(),
-				creditCard.getNameOnCard(),
-				creditCard.getExpirationDate(),
 				creditCard.getCardNum(),
+				creditCard.getNameOnCard(),
+				creditCard.getExpirationDate(),				
 				creditCard.getCardType());
+		}
 	}
 
 }

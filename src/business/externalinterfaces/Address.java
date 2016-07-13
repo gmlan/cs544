@@ -12,6 +12,4 @@ public interface Address {
     public void setCity(String s);
     public void setState(String s);
     public void setZip(String s);
-    public boolean isShippingAddress();
-	public boolean isBillingAddress();   
 }

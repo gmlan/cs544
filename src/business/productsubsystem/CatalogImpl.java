@@ -61,7 +61,12 @@ class CatalogImpl implements Catalog, Serializable {
 	}
 	
 	public static CatalogImpl Clone(Catalog catalog){
-		return new CatalogImpl(catalog.getId(), catalog.getName());
+		if(catalog instanceof CatalogImpl){
+			return (CatalogImpl) catalog;
+		}
+		else{
+			return new CatalogImpl(catalog.getId(), catalog.getName());
+		}
 	}
 
 	@Override

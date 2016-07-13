@@ -1,5 +1,6 @@
 package business.ordersubsystem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import business.externalinterfaces.CreditCard;
 import business.externalinterfaces.Order;
 import business.externalinterfaces.OrderItem;
 import business.externalinterfaces.OrderSubsystem;
+import business.externalinterfaces.User;
 import business.usersubsystem.AddressImpl;
 import business.usersubsystem.CreditCardImpl;
 
@@ -24,8 +26,8 @@ public class OrderSubsystemFacade implements OrderSubsystem {
 	OrderDAO orderDAO;
 	
 	@Override
-	public List<Order> getOrderHistory() throws BackendException {
-		return null;
+	public List<Order> getOrderHistory(User user) throws BackendException {
+		return new ArrayList<>(orderDAO.findObjects("FROM OrderImpl where user.id=" + user.getId(), null));
 	}
 	
 	@Override

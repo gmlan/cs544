@@ -204,7 +204,7 @@
 				</form>
 			</div>
 			<div class="col-md-2 text-center">			
-				<form action="myshoppingcart/save" method="GET" onsubmit="return confirmSave(this);">	
+				<form action="shoppingcart/mysave" method="GET" onsubmit="return confirmSave(this);">	
 					<button id="saveCart" class="btn btn-primary" type="submit">Save Cart</button>
 				</form>
 			</div>

@@ -16,16 +16,14 @@ public class AddressImpl implements Address {
 	private String street;
 	private String city;
 	private String state;
-	private boolean isShip;
 
-	public AddressImpl(int id, String zip, String street, String city, String state, boolean isShip) {
+	public AddressImpl(int id, String zip, String street, String city, String state) {
 		super();
 		this.id = id;
 		this.zip = zip;
 		this.street = street;
 		this.city = city;
 		this.state = state;
-		this.isShip = isShip;
 	}
 
 	public AddressImpl() {
@@ -73,16 +71,6 @@ public class AddressImpl implements Address {
 	}
 
 	@Override
-	public boolean isShippingAddress() {
-		return isShip;
-	}
-
-	@Override
-	public boolean isBillingAddress() {
-		return !isShip;
-	}
-
-	@Override
 	public int getId() {
 		return id;
 	}
@@ -94,10 +82,14 @@ public class AddressImpl implements Address {
 	}
 
 	public static AddressImpl clone(Address address) {
-		AddressImpl addressImpl = new AddressImpl(address.getId(), address.getStreet(), address.getCity(),
-				address.getState(), address.getZip(), address.isShippingAddress());
-		addressImpl.setId(address.getId());
-		return addressImpl;
+		if(address instanceof AddressImpl){
+			return (AddressImpl) address;
+		}
+		else{
+			AddressImpl addressImpl = new AddressImpl(address.getId(), address.getZip(), address.getStreet(),
+					address.getCity(), address.getState());
+			return addressImpl;
+		}
 	}
 
 }

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -30,23 +31,26 @@ class OrderImpl implements Order {
 	@GeneratedValue
 	private int orderId;
 	
-	@OneToMany(cascade =  CascadeType.ALL)
+	@OneToMany(cascade =  CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name="order_id")
 	private List<OrderItemImpl> orderItems;	
 	
 	private LocalDate date;	
 	private double totalPriceAmount;
 	
-	@OneToOne
+	@OneToOne(cascade =  CascadeType.ALL)
 	private UserImpl user;
 	
 	@OneToOne(cascade =  CascadeType.ALL)
+	@JoinColumn(name="order_shipping")
 	private AddressImpl shipAddr;
 	
 	@OneToOne(cascade =  CascadeType.ALL)
+	@JoinColumn(name="order_billing")
 	private AddressImpl billAddr;
 	
 	@OneToOne(cascade =  CascadeType.ALL)
+	@JoinColumn(name="order_creditCard")
 	private CreditCardImpl creditCard;
 	
 
@@ -140,13 +144,20 @@ class OrderImpl implements Order {
 	}
 	
 	public static OrderImpl clone(Order order) {
-		OrderImpl orderImpl = new OrderImpl();
-		orderImpl.setDate(order.getOrderDate());;
-		orderImpl.setOrderItems(order.getOrderItems());
-		orderImpl.setPaymentInfo(order.getPaymentInfo());
-		orderImpl.setBillAddress(order.getBillAddress());
-		orderImpl.setShipAddress(order.getShipAddress());
-		orderImpl.setTotalPriceAmount(order.getTotalPrice());
-		return orderImpl;
+		if(order instanceof OrderImpl){
+			return (OrderImpl)order;
+		}
+		else{
+			OrderImpl orderImpl = new OrderImpl();
+			orderImpl.setOrderId(order.getOrderId());
+			orderImpl.setUser(order.getUser());
+			orderImpl.setDate(order.getOrderDate());		
+			orderImpl.setOrderItems(order.getOrderItems());
+			orderImpl.setPaymentInfo(order.getPaymentInfo());
+			orderImpl.setBillAddress(order.getBillAddress());
+			orderImpl.setShipAddress(order.getShipAddress());
+			orderImpl.setTotalPriceAmount(order.getTotalPrice());
+			return orderImpl;
+		}
 	}
 }

@@ -76,12 +76,17 @@ class OrderItemImpl implements OrderItem {
 	}
 	
 	public static OrderItemImpl clone(OrderItem orderItem) {
-		OrderItemImpl orderItemImpl = new OrderItemImpl();
-		orderItemImpl.setOrderItemId(orderItem.getOrderItemId());
-		orderItemImpl.setProductId(orderItem.getProductId());
-		orderItemImpl.setProductName(orderItem.getProductName());
-		orderItemImpl.setQuantity(orderItem.getQuantity());
-		orderItemImpl.setUnitPrice(orderItem.getUnitPrice());
-		return orderItemImpl;
+		if(orderItem instanceof OrderItemImpl){
+			return (OrderItemImpl) orderItem;
+		}
+		else{
+			OrderItemImpl orderItemImpl = new OrderItemImpl();
+			orderItemImpl.setOrderItemId(orderItem.getOrderItemId());
+			orderItemImpl.setProductId(orderItem.getProductId());
+			orderItemImpl.setProductName(orderItem.getProductName());
+			orderItemImpl.setQuantity(orderItem.getQuantity());
+			orderItemImpl.setUnitPrice(orderItem.getUnitPrice());
+			return orderItemImpl;
+		}
 	}
 }

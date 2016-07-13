@@ -41,6 +41,10 @@ public interface User {
 	public void setBillingAddress(List<? extends Address> billingAddress);
 
 	public List<? extends CreditCard> getCreditCard();
+	
+	public void addShippingAddress(Address add);
+	
+	public void addBillingAddress(Address add);
 
 	public void setCreditCard(List<? extends CreditCard> creditCard);
 
