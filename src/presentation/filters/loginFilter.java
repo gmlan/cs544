@@ -48,15 +48,15 @@ public class loginFilter implements Filter {
         		req.getRequestURI().startsWith(req.getContextPath() + "/admin")){//no-administrator   
         	
         	req.getSession().setAttribute(Constants.LAST_REQUEST_URL, req.getRequestURI());        	
-        	resp.sendRedirect(req.getContextPath() + "/login");
+        	resp.sendRedirect(req.getContextPath() + "/loginuser");
         }
         else if(login == null && 
         		req.getRequestURI().startsWith(req.getContextPath() + "/my")){//no-login user
         	req.getSession().setAttribute(Constants.LAST_REQUEST_URL, req.getRequestURI());
-        	resp.sendRedirect(req.getContextPath() + "/login");
+        	resp.sendRedirect(req.getContextPath() + "/loginuser");
         }
         else{
-        	if(!req.getRequestURI().startsWith(req.getContextPath() + "/login"))
+        	if(!req.getRequestURI().startsWith(req.getContextPath() + "/loginuser"))
         		req.getSession().setAttribute(Constants.LAST_REQUEST_URL, null);//clear
             chain.doFilter(request, response);
         }

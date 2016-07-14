@@ -1,133 +1,272 @@
 package presentation.data;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.hibernate.id.IncrementGenerator;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
+import org.hibernate.validator.constraints.NotEmpty;
 
-import business.externalinterfaces.Catalog;
-import business.externalinterfaces.Product;
-import business.util.Convert;
+import business.externalinterfaces.Address;
+import business.externalinterfaces.CreditCard;
+import business.externalinterfaces.User;
+import business.usersubsystem.AddressImpl;
+import business.usersubsystem.CreditCardImpl;
 
-@XmlRootElement 
-public class UserPres implements Serializable{
+@XmlRootElement
+public class UserPres implements User, Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	//@Pattern(regexp="P[1-9]+", message="{Pattern.Product.productId.validation}")	
-	private int userId;
-	private String userName;
+
+	// @Pattern(regexp="P[1-9]+",
+	// message="{Pattern.Product.productId.validation}")
+	private int id;
+	@NotEmpty
+	private String username;
+	@NotEmpty
 	private String password;
-	private String shippingStreet;
-	private String shippingCity;
-	private String shippingState;
-	private String shippingZip;
-	private String billingStreet;
-	private String billingCity;
-	private String billingState;
-	private String billingZip;
+	@NotEmpty
+	@Size(min = 4, max = 50, message = "Min length 4 characters")
+	private String firstname;
+	@NotEmpty
+	@Size(min = 4, max = 50, message = "Min length 4 characters")
+	private String lastname;
+	 
 	private boolean billingCheckboxs;
+	private boolean enabled;
+ 
+	// @DateTimeFormat(pattern = Convert.DATE_PATTERN)
+	// private LocalDate mfgDate;
+	private String authority;
+
+	@Valid
+	private Address defaultShippingAddress;
+	private Address defaultBillingAddress;
+	@Valid
+	private CreditCard defaultCreditCard;
 	
+	private List<Address> shippingAddress;
 	
-	@Size(min=4, max=50, message="Min length 4 characters")
-	private String firstName;
-	@Size(min=4, max=50, message="Min length 4 characters")
-	private String lastName;
-	public int getUserId() {
-		return userId;
+	private List<Address> billingAddress;
+	
+	private List<CreditCard> creditCard;
+	
+
+	public UserPres() {
+		/*if (billingCheckboxs == true) {
+			setDefaultBillingAddress(
+					new AddressImpl(id, shippingZip, shippingStreet, shippingCity, shippingState));
+		} else {
+			setDefaultBillingAddress(new AddressImpl(id, billingZip, billingStreet, billingCity, billingState));
+		}
+		setDefaultShippingAddress(new AddressImpl(id, shippingZip, shippingStreet, shippingCity, shippingState));
+		setDefaultCreditCard(new CreditCardImpl(cardNum, nameOnCard, expirationDate, cardType));*/
+		defaultBillingAddress = new AddressImpl();
+		defaultShippingAddress  = new AddressImpl();
+		defaultCreditCard = new CreditCardImpl();
+		
+		setAuthority("ROLE_USER");
+		shippingAddress = new ArrayList<>();
+		billingAddress = new ArrayList<>();
+		creditCard = new ArrayList<>();
+		shippingAddress.add(getDefaultShippingAddress());
+		billingAddress.add(getDefaultBillingAddress());
+		creditCard.add(getDefaultCreditCard());
+		setEnabled(true);
 	}
-	public void setUserId(int userId) {
-		this.userId = userId;
+
+	/*
+	public UserPres Clone(User user) {		
+		UserPres use = new UserPres();
+		if (billingCheckboxs == true) {
+			use.setDefaultBillingAddress(
+					new AddressImpl(id, shippingZip, shippingStreet, shippingCity, shippingState));
+		} else {
+			use.setDefaultBillingAddress(
+					new AddressImpl(id, billingZip, billingStreet, billingCity, billingState));
+		}
+		use.setDefaultShippingAddress(
+				new AddressImpl(id, shippingZip, shippingStreet, shippingCity, shippingState));
+		use.setDefaultCreditCard(new CreditCardImpl(cardNum, nameOnCard, expirationDate, cardType));
+		use.setId(user.getId());
+		use.setUsername(user.getUsername());
+		use.setPassword(user.getPassword());
+		use.setFirstname(user.getFirstname());
+		use.setLastname(user.getLastname());
+		use.setEnabled(user.isEnabled());
+		use.setAuthority("ROLE_USER");
+
+		return use;
 	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+*/
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getShippingStreet() {
-		return shippingStreet;
+
+	@Override
+	public String getUsername() {
+		return username;
 	}
-	public void setShippingStreet(String shippingStreet) {
-		this.shippingStreet = shippingStreet;
+
+	@Override
+	public void setUsername(String username) {
+		this.username = username;
 	}
-	public String getShippingCity() {
-		return shippingCity;
+
+	@Override
+	public String getFirstname() {
+		return firstname;
 	}
-	public void setShippingCity(String shippingCity) {
-		this.shippingCity = shippingCity;
+
+	@Override
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
-	public String getShippingState() {
-		return shippingState;
+
+	@Override
+	public String getLastname() {
+		return lastname;
 	}
-	public void setShippingState(String shippingState) {
-		this.shippingState = shippingState;
+
+	@Override
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
-	public String getShippingZip() {
-		return shippingZip;
+
+	@Override
+	public Address getDefaultShippingAddress() {
+		return defaultShippingAddress;
 	}
-	public void setShippingZip(String shippingZip) {
-		this.shippingZip = shippingZip;
+
+	@Override
+	public void setDefaultShippingAddress(Address defaultShippingAddress) {
+		this.defaultShippingAddress = defaultShippingAddress;
 	}
-	public String getBillingStreet() {
-		return billingStreet;
+
+	@Override
+	public Address getDefaultBillingAddress() {
+		return defaultBillingAddress;
 	}
-	public void setBillingStreet(String billingStreet) {
-		this.billingStreet = billingStreet;
+
+	@Override
+	public void setDefaultBillingAddress(Address defaultBillingAddress) {
+		this.defaultBillingAddress = defaultBillingAddress;
 	}
-	public String getBillingCity() {
-		return billingCity;
+
+	@Override
+	public CreditCard getDefaultCreditCard() {
+		return defaultCreditCard;
 	}
-	public void setBillingCity(String billingCity) {
-		this.billingCity = billingCity;
+
+	@Override
+	public void setDefaultCreditCard(CreditCard defaultCreditCard) {
+		this.defaultCreditCard = defaultCreditCard;
 	}
-	public String getBillingState() {
-		return billingState;
+
+	@Override
+	public List<? extends Address> getShippingAddress() {
+		return this.shippingAddress;
 	}
-	public void setBillingState(String billingState) {
-		this.billingState = billingState;
+
+	@Override
+	public void setShippingAddress(List<? extends Address> shippingAddress) {
+		this.shippingAddress = shippingAddress.stream().map(add->AddressImpl.clone(add)).collect(Collectors.toList());
 	}
-	public String getBillingZip() {
-		return billingZip;
+
+	@Override
+	public List<? extends Address> getBillingAddress() {
+		return this.billingAddress;
 	}
-	public void setBillingZip(String billingZip) {
-		this.billingZip = billingZip;
+
+	@Override
+	public void setBillingAddress(List<? extends Address> billingAddress) {
+		this.billingAddress = billingAddress.stream().map(bill->AddressImpl.clone(bill)).collect(Collectors.toList());
 	}
-	public String getFirstName() {
-		return firstName;
+
+	@Override
+	public List<? extends CreditCard> getCreditCard() {
+		return this.creditCard;
 	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+
+	@Override
+	public void setCreditCard(List<? extends CreditCard> creditCard) {
+		this.creditCard = creditCard.stream().map(cc->CreditCardImpl.clone(cc)).collect(Collectors.toList());
 	}
-	public String getLastName() {
-		return lastName;
+
+	@Override
+	public int getId() {
+		return id;
 	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+
+	@Override
+	public int setId(Integer id) {
+		return id;
+
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+
+	@Override
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	@Override
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	@Override
+	public String getAuthority() {
+		return authority;
+	}
+
+	@Override
+	public void setAuthority(String authority) {
+		this.authority = authority;
+	}
+ 
+	public boolean isBillingCheckboxs() {
+		return billingCheckboxs;
+	}
+
+	public void setBillingCheckboxs(boolean billingCheckboxs) {
+		this.billingCheckboxs = billingCheckboxs;
+	}
+
+	@Override
+	public void addBillingAddress(Address address) {
+		this.billingAddress.add(address);
+	}
+
+	@Override
+	public void addShippingAddress(Address address) {
+		this.shippingAddress.add(address);
 	}
 	
-	
-		
-	
+	public static UserPres clone(User user){
+		if(user instanceof UserPres){
+			return (UserPres) user;
+		}
+		else{
+			UserPres userPres = new UserPres();
+			userPres.setFirstname(user.getFirstname());
+			userPres.setLastname(user.getLastname());
+			userPres.setUsername(user.getUsername());
+			userPres.setPassword(user.getPassword());
+			userPres.setDefaultShippingAddress(user.getDefaultShippingAddress());
+			userPres.setDefaultBillingAddress(user.getDefaultBillingAddress());
+			userPres.setDefaultCreditCard(user.getDefaultCreditCard());
+						
+			return userPres;
+		}
+	}
 }

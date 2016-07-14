@@ -22,6 +22,7 @@ public class UserCacheService implements UserSubsystem {
 	}
 
 	@Override
+	@CacheSettings(removeKeys = CacheConstants.CACHE_USERS, cacheLevel = CacheLevel.Application)
 	public void updateUser(User user) throws BackendException {
 		userSubsystem.updateUser(user);
 	}
@@ -39,6 +40,7 @@ public class UserCacheService implements UserSubsystem {
 	}
 
 	@Override
+	@CacheSettings(removeKeys = CacheConstants.CACHE_USERS, cacheLevel = CacheLevel.Application)
 	public int saveNewUser(User user) throws BackendException {
 		return userSubsystem.saveNewUser(user);
 	}

@@ -127,4 +127,8 @@
         <put-attribute name="title" value="Maintain Catalogs" />  
         <put-attribute name="body" value="/WEB-INF/bodyfragments/_admin_catalog.jsp" />
     </definition>
+     <definition name="error" extends="base_nosidebar.definition">  
+        <put-attribute name="title" value="Error" />  
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/_error.jsp" />
+    </definition>
 </tiles-definitions>

@@ -9,7 +9,7 @@ import business.exceptions.BackendException;
 public interface OrderSubsystem {
     List<Order> getOrderHistory(User user) throws BackendException;
 
-    void submitOrder(Order order) throws BackendException;
+    int submitOrder(Order order) throws BackendException;
     
     Order createOrder();
     

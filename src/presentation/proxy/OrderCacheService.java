@@ -30,8 +30,8 @@ public class OrderCacheService implements OrderSubsystem {
 
 	@Override
 	@CacheSettings(removeKeys = { CacheConstants.CACHE_ORDER_HISTORY }, cacheLevel = CacheLevel.Session)
-	public void submitOrder(Order order) throws BackendException {
-		orderSubsystem.submitOrder(order);
+	public int submitOrder(Order order) throws BackendException {
+		return orderSubsystem.submitOrder(order);
 	}
 
 	@Override

@@ -13,6 +13,9 @@
 		    }			 
 	  });
 	});
+ $(function () {
+     $('#mfg').datepicker();
+ });
  
  </script>
 <br>
@@ -25,17 +28,17 @@
 	</c:otherwise>
 </c:choose>
 <hr>
-<form:form action="admin/user"  modelAttribute="newUser" class="form-horizontal" enctype="multipart/form-data">
+<form:form action="register"  modelAttribute="newUser" class="form-horizontal" enctype="multipart/form-data">
 		<fieldset>		
 
 			<form:errors path="*" cssClass="alert alert-danger" element="div"/>
 			 
-			<form:input id="userId" path="userId" type="hidden"  />
+			<form:input id="id" path="id" type="hidden"  />
 			 
-			<div class="input-group">
+			 <div class="input-group">
 			  <span class="input-group-addon" id="basic-addon1">User Name</span>
-			  <form:input id="userName" path="userName" type="text"  placeholder="User Name" class="form-control" aria-describedby="basic-addon1"/>			  
-			</div><form:errors path="userName" cssClass="text-danger"/>
+			  <form:input id="username" path="username" type="text"  placeholder="User Name" class="form-control" aria-describedby="basic-addon1"/>			  
+			</div><form:errors path="username" cssClass="text-danger"/>
 			<br>
 			<div class="input-group">
 			  <span class="input-group-addon" id="basic-addon2">Password</span>
@@ -44,14 +47,42 @@
 			<br>
 			<div class="input-group">
 			  <span class="input-group-addon" id="basic-addon3">First Name</span>
-			  <form:input id="firstName" path="firstName" type="text"  class="form-control" aria-describedby="basic-addon3"/>
-			  <form:errors path="firstName" cssClass="text-danger"/>
+			  <form:input id="firstname" path="firstname" type="text"  class="form-control" aria-describedby="basic-addon3"/>
+			  <form:errors path="firstname" cssClass="text-danger"/>
 			</div>			
 			<br>
 			<div class="input-group">
 			  <span class="input-group-addon" id="basic-addon4">Last Name</span>
-			  <form:input id="lastName" path="lastName" type="text"  class="form-control" aria-describedby="basic-addon4"/>
-			  <form:errors path="lastName" cssClass="text-danger"/>
+			  <form:input id="lastname" path="lastname" type="text"  class="form-control" aria-describedby="basic-addon4"/>
+			  <form:errors path="lastname" cssClass="text-danger"/>
+			</div>
+			<br>
+			<div class="input-group">
+			  <span class="input-group-addon" id="basic-addon4">CreditCard Details</span>
+			</div>
+			<br>  
+			<div class="input-group">
+			  <span class="input-group-addon" id="basic-addon5">Card Number</span>
+			  <form:input id="cardNum" path="defaultCreditCard.cardNum" type="text" class="form-control" aria-describedby="basic-addon5"/>
+			  <form:errors path="defaultCreditCard.cardNum" cssClass="text-danger"/>
+			</div>
+			<br>
+			<div class="input-group">
+			  <span class="input-group-addon" id="basic-addon6">Name On Card</span>
+			  <form:input id="nameOnCard" path="defaultCreditCard.nameOnCard" type="text" class="form-control" aria-describedby="basic-addon6"/>
+			  <form:errors path="defaultCreditCard.nameOnCard" cssClass="text-danger"/>
+			</div>
+			<br>
+			<div class="input-group">
+			  <span class="input-group-addon" id="basic-addon7">Expiration Date</span>
+			  <form:input id="mfg" path="defaultCreditCard.expirationDate" type="text"  placeholder="MM/DD/YYYY" class="form-control" aria-describedby="basic-addon7"/>
+			  <form:errors path="defaultCreditCard.expirationDate" cssClass="text-danger"/>
+			</div>
+			<br>
+			<div class="input-group">
+			  <span class="input-group-addon" id="basic-addon8">Card Type</span>
+			  <form:input id="cardType" path="defaultCreditCard.cardType" type="text" class="form-control" aria-describedby="basic-addon8"/>
+			  <form:errors path="defaultCreditCard.cardType" cssClass="text-danger"/>
 			</div>
 			<br>
 			<div class="input-group">
@@ -60,26 +91,26 @@
 			<br>  
 			<div class="input-group">
 			  <span class="input-group-addon" id="basic-addon5">Street</span>
-			  <form:input id="shippingStreet" path="shippingStreet" type="text" class="form-control" aria-describedby="basic-addon5"/>
-			  <form:errors path="shippingStreet" cssClass="text-danger"/>
+			  <form:input id="shippingStreet" path="defaultShippingAddress.street" type="text" class="form-control" aria-describedby="basic-addon5"/>
+			  <form:errors path="defaultShippingAddress.street" cssClass="text-danger"/>
 			</div>
 			<br>
 			<div class="input-group">
 			  <span class="input-group-addon" id="basic-addon6">City</span>
-			  <form:input id="shippingCity" path="shippingCity" type="text" class="form-control" aria-describedby="basic-addon6"/>
-			  <form:errors path="shippingCity" cssClass="text-danger"/>
+			  <form:input id="shippingCity" path="defaultShippingAddress.city" type="text" class="form-control" aria-describedby="basic-addon6"/>
+			  <form:errors path="defaultShippingAddress.city" cssClass="text-danger"/>
 			</div>
 			<br>
 			<div class="input-group">
 			  <span class="input-group-addon" id="basic-addon7">State</span>
-			  <form:input id="shippingState" path="shippingState" type="text"  class="form-control" aria-describedby="basic-addon7"/>
-			  <form:errors path="shippingState" cssClass="text-danger"/>
+			  <form:input id="shippingState" path="defaultShippingAddress.state" type="text"  class="form-control" aria-describedby="basic-addon7"/>
+			  <form:errors path="defaultShippingAddress.state" cssClass="text-danger"/>
 			</div>
 			<br>
 			<div class="input-group">
 			  <span class="input-group-addon" id="basic-addon8">Zip</span>
-			  <form:input id="shippingZip" path="shippingZip" type="text" class="form-control" aria-describedby="basic-addon8"/>
-			  <form:errors path="shippingZip" cssClass="text-danger"/>
+			  <form:input id="shippingZip" path="defaultShippingAddress.zip" type="text" class="form-control" aria-describedby="basic-addon8"/>
+			  <form:errors path="defaultShippingAddress.zip" cssClass="text-danger"/>
 			</div>
 			<br>
 			<div class="input-group">
@@ -92,26 +123,26 @@
 			<div id="billingAddress">
 				<div class="input-group">
 				  <span class="input-group-addon" id="basic-addon9">Street</span>
-				  <form:input id="billingStreet" path="billingStreet" type="text" class="form-control" aria-describedby="basic-addon9"/>
-				  <form:errors path="billingStreet" cssClass="text-danger"/>
+				  <form:input id="billingStreet" path="defaultBillingAddress.street" type="text" class="form-control" aria-describedby="basic-addon9"/>
+				  <form:errors path="defaultBillingAddress.street" cssClass="text-danger"/>
 				</div>
 				<br>
 				<div class="input-group">
 				  <span class="input-group-addon" id="basic-addon10">City</span>
-				  <form:input id="billingCity" path="billingCity" type="text" class="form-control" aria-describedby="basic-addon10"/>
-				  <form:errors path="billingCity" cssClass="text-danger"/>
+				  <form:input id="billingCity" path="defaultBillingAddress.city" type="text" class="form-control" aria-describedby="basic-addon10"/>
+				  <form:errors path="defaultBillingAddress.city" cssClass="text-danger"/>
 				</div>
 				<br>
 				<div class="input-group">
 				  <span class="input-group-addon" id="basic-addon11">State</span>
-				  <form:input id="billingState" path="billingState" type="text" class="form-control" aria-describedby="basic-addon11"/>
-				  <form:errors path="billingState" cssClass="text-danger"/>
+				  <form:input id="billingState" path="defaultBillingAddress.state" type="text" class="form-control" aria-describedby="basic-addon11"/>
+				  <form:errors path="defaultBillingAddress.state" cssClass="text-danger"/>
 				</div>
 				<br>
 				<div class="input-group">
 				  <span class="input-group-addon" id="basic-addon12">Zip</span>
-				  <form:input id="billingZip" path="billingZip" type="text" class="form-control" aria-describedby="basic-addon12"/>
-				  <form:errors path="billingZip" cssClass="text-danger"/>
+				  <form:input id="billingZip" path="defaultBillingAddress.zip" type="text" class="form-control" aria-describedby="basic-addon12"/>
+				  <form:errors path="defaultBillingAddress.zip" cssClass="text-danger"/>
 				</div>
 				<br>
 				<br>

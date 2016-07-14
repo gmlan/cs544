@@ -30,6 +30,10 @@ public interface User {
 
 	public CreditCard getDefaultCreditCard();
 
+	public void addBillingAddress(Address address);
+
+	public void addShippingAddress(Address address);
+	
 	public void setDefaultCreditCard(CreditCard defaultCreditCard);
 
 	public List<? extends Address> getShippingAddress();
@@ -41,10 +45,6 @@ public interface User {
 	public void setBillingAddress(List<? extends Address> billingAddress);
 
 	public List<? extends CreditCard> getCreditCard();
-	
-	public void addShippingAddress(Address add);
-	
-	public void addBillingAddress(Address add);
 
 	public void setCreditCard(List<? extends CreditCard> creditCard);
 
@@ -59,4 +59,5 @@ public interface User {
 	public String getAuthority();
 
 	public void setAuthority(String authority);
+ 
 }

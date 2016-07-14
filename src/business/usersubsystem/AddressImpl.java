@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import business.externalinterfaces.Address;
 
 @Entity(name = "Address")
@@ -12,9 +14,13 @@ public class AddressImpl implements Address {
 	@Id
 	@GeneratedValue
 	private int id;
+	@NotEmpty
 	private String zip;
+	@NotEmpty
 	private String street;
+	@NotEmpty
 	private String city;
+	@NotEmpty
 	private String state;
 
 	public AddressImpl(int id, String zip, String street, String city, String state) {

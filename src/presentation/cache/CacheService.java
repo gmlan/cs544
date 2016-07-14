@@ -7,8 +7,14 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
+
+import business.aop.ControllerAdvice;
+
 public final class CacheService {
 
+	final static Logger logger = Logger.getLogger(ControllerAdvice.class);
+	
 	private CacheService() {
 	}
 	
@@ -57,14 +63,9 @@ public final class CacheService {
 					}
 				}
 			}
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error(e);
 		}
-	
 		return objInCache;
 	}
 

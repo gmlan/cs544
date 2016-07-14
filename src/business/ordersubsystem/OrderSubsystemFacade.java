@@ -36,8 +36,11 @@ public class OrderSubsystemFacade implements OrderSubsystem {
 	};
 
 	@Override
-	public void submitOrder(Order order) throws BackendException {
-		orderDAO.save(OrderImpl.clone(order));
+	public int submitOrder(Order order) throws BackendException {
+		OrderImpl orderImpl = OrderImpl.clone(order);
+		orderDAO.save(orderImpl);
+		order.setOrderId(orderImpl.getOrderId());
+		return orderImpl.getOrderId();
 	}
 
 	@Override

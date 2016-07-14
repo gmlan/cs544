@@ -51,15 +51,15 @@ public class UserImpl implements User {
 	@OneToOne(cascade = CascadeType.ALL)
 	private CreditCardImpl defaultCreditCard;
 
-	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_shipping")
 	private List<AddressImpl> shippingAddress;
-	
-	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_billing")
 	private List<AddressImpl> billingAddress;
 
-	@OneToMany(cascade = CascadeType.PERSIST,fetch=FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_creditcard")
 	private List<CreditCardImpl> creditCard;
 
@@ -220,7 +220,30 @@ public class UserImpl implements User {
 	public void setAuthority(String authority) {
 		this.authority = authority;
 	}
-	
+
+	public static UserImpl clone(User user) {
+		UserImpl userClone = new UserImpl();
+		if (user instanceof UserImpl) {
+			return (UserImpl) user;
+		} else {
+			userClone.setId(user.getId());
+			userClone.setUsername(user.getUsername());
+			userClone.setPassword(user.getPassword());
+			userClone.setFirstname(user.getFirstname());
+			userClone.setLastname(user.getLastname());
+
+			userClone.setDefaultBillingAddress(AddressImpl.clone(user.getDefaultBillingAddress()));
+			userClone.setDefaultShippingAddress(AddressImpl.clone(user.getDefaultShippingAddress()));
+			userClone.setDefaultCreditCard(CreditCardImpl.clone(user.getDefaultCreditCard()));
+
+			userClone.setShippingAddress(user.getShippingAddress());
+			userClone.setBillingAddress(user.getBillingAddress());
+			userClone.setCreditCard(user.getCreditCard());
+			userClone.setEnabled(user.isEnabled());
+			userClone.setAuthority(user.getAuthority());
+		}
+		return userClone;
+	}
 
 	@Override
 	public void addShippingAddress(Address add) {
@@ -230,28 +253,5 @@ public class UserImpl implements User {
 	@Override
 	public void addBillingAddress(Address add) {
 		this.billingAddress.add(AddressImpl.clone(add));
-	}
-
-	public static UserImpl clone(User user) {
-		if(user instanceof UserImpl){
-			return (UserImpl) user;
-		}
-		else{
-			UserImpl userClone = new UserImpl();
-			userClone.setId(user.getId());
-			userClone.setUsername(user.getUsername());
-			userClone.setPassword(user.getPassword());
-			userClone.setFirstname(user.getFirstname());
-			userClone.setLastname(user.getLastname());
-			userClone.setDefaultBillingAddress(user.getDefaultBillingAddress());
-			userClone.setDefaultShippingAddress(user.getDefaultShippingAddress());
-			userClone.setDefaultCreditCard(user.getDefaultCreditCard());
-			userClone.setShippingAddress(user.getShippingAddress());
-			userClone.setBillingAddress(user.getBillingAddress());
-			userClone.setCreditCard(user.getCreditCard());
-			userClone.setEnabled(user.isEnabled());
-			userClone.setAuthority(user.getAuthority());
-			return userClone;
-		}
-	}
+	} 
 }
